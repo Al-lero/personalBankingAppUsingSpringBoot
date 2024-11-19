@@ -1,9 +1,7 @@
 package com.bankprototype.alerobank.service;
 
 import com.bankprototype.alerobank.data.model.User;
-import com.bankprototype.alerobank.dto.request.AccountInfo;
-import com.bankprototype.alerobank.dto.request.EmailDetails;
-import com.bankprototype.alerobank.dto.request.UserRequest;
+import com.bankprototype.alerobank.dto.request.*;
 import com.bankprototype.alerobank.dto.response.BankResponse;
 import com.bankprototype.alerobank.data.repository.UserRepository;
 import com.bankprototype.alerobank.utils.AccountUtils;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 @Service
-public class   UserServiceImplementation implements UserService {
+public class UserServiceImplementation implements UserService {
     @Autowired
     private UserRepository userRepository;
 
@@ -70,7 +68,68 @@ public class   UserServiceImplementation implements UserService {
 
     }
 
+    @Override
+    public BankResponse balanceEnquiry(EnquiryRequest request) {
+        boolean isAccountExist = userRepository.existsByAccountNumber(request.getAccountNumber());
+        if (!isAccountExist){
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.Account_Not_Exist_Code)
+                    .responseMessage(AccountUtils.Account_Not_Exist_Message)
+                    .accountInfo(null)
+                    .build();
+        }
 
+        User foundUser = userRepository.findByAccountNumber(request.getAccountNumber());
+        return BankResponse.builder()
+                .responseCode(AccountUtils.Account_Found_code)
+                .responseMessage(AccountUtils.Account_Found_Success)
+                .accountInfo(AccountInfo.builder()
+                        .accountBalance(foundUser.getAccountBalance())
+                        .accountNumber(request.getAccountNumber())
+                        .accountName(foundUser.getFirstName() + " " + foundUser.getLastName() + " " + foundUser.getOtherName())
+
+                        .build())
+                .build();
+    }
+
+    @Override
+    public String nameEnquiry(EnquiryRequest request) {
+        boolean isAccountExist = userRepository.existsByAccountNumber(request.getAccountNumber());
+        if (!isAccountExist){
+            return AccountUtils.Account_Not_Exist_Message;
+
+        }
+        User foundUser = userRepository.findByAccountNumber(request.getAccountNumber());
+        return foundUser.getFirstName() + " " + foundUser.getLastName() + " " + foundUser.getOtherName();
+    }
+
+    @Override
+    public BankResponse creditAccount(CreditRequest request) {
+        boolean isAccountExist = userRepository.existsByAccountNumber(request.getAccountNumber());
+        if (!isAccountExist){
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.Account_Not_Exist_Code)
+                    .responseMessage(AccountUtils.Account_Not_Exist_Message)
+                    .accountInfo(null)
+                    .build();
+        }
+        User userToCredit = userRepository.findByAccountNumber(request.getAccountNumber());
+        userToCredit.setAccountBalance(userToCredit.getAccountBalance().add(request.getAmount()));
+        return BankResponse.builder()
+                .responseCode(AccountUtils.Account_Credited_Succesfully_Code)
+                .responseMessage(AccountUtils.Account_Credited_Success_Messsage)
+                .accountInfo(AccountInfo.builder()
+                        .accountName(userToCredit.getFirstName() + " " + userToCredit.getLastName() + " " + userToCredit.getOtherName())
+                        .accountBalance(userToCredit.getAccountBalance())
+                        .accountNumber(request.getAccountNumber())
+                        .build())
+                .build();
+    }
+
+    @Override
+    public BankResponse debitAccount(DebitRequest request) {
+        return null;
+    }
 
 }
 
