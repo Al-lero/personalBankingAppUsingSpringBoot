@@ -32,6 +32,10 @@ public class AccountUtils {
 
     public static final String Account_Debited_Message = "Amount Debited Successfully";
 
+    public static final String Transfer_Successful_Code = "003";
+
+    public static final String Transfer_Successfully_Message = " Transfer Successful!";
+
     public static String genericAccountNumber() {
 
         Year currentYear = Year.now();

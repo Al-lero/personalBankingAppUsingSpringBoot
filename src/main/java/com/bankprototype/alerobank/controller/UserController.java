@@ -1,9 +1,6 @@
 package com.bankprototype.alerobank.controller;
 
-import com.bankprototype.alerobank.dto.request.CreditRequest;
-import com.bankprototype.alerobank.dto.request.DebitRequest;
-import com.bankprototype.alerobank.dto.request.EnquiryRequest;
-import com.bankprototype.alerobank.dto.request.UserRequest;
+import com.bankprototype.alerobank.dto.request.*;
 import com.bankprototype.alerobank.dto.response.BankResponse;
 import com.bankprototype.alerobank.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +40,12 @@ public class UserController {
     @PostMapping("debit")
     public BankResponse debitAccount(@RequestBody DebitRequest request){
         return userService.debitAccount(request);
+    }
+
+    @PostMapping("transfer")
+    public BankResponse transfer(@RequestBody TransferRequest request) {
+        return userService.transfer(request);
+
     }
 
 
