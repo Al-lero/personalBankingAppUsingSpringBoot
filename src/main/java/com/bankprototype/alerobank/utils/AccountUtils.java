@@ -20,9 +20,17 @@ public class AccountUtils {
 
     public static final String Account_Found_Success = "UserAccount Found";
 
-    public static final String Account_Credited_Succesfully_Code = "009";
+    public static final String Account_Credited_Successfully_Code = "009";
 
-    public static final String Account_Credited_Success_Messsage = "User Account Credited Sucessfully";
+    public static final String Account_Credited_Success_Message = "User Account Credited Sucessfully";
+
+    public static final String Insufficient_Balance_Code = "006";
+
+    public static final String Insufficient_Balance_message = "Insufficient Balance";
+
+    public static final String Account_Debited_Code = " 008";
+
+    public static final String Account_Debited_Message = "Amount Debited Successfully";
 
     public static String genericAccountNumber() {
 

@@ -1,6 +1,7 @@
 package com.bankprototype.alerobank.controller;
 
 import com.bankprototype.alerobank.dto.request.CreditRequest;
+import com.bankprototype.alerobank.dto.request.DebitRequest;
 import com.bankprototype.alerobank.dto.request.EnquiryRequest;
 import com.bankprototype.alerobank.dto.request.UserRequest;
 import com.bankprototype.alerobank.dto.response.BankResponse;
@@ -23,7 +24,7 @@ public class UserController {
         return userService.createAccount(userRequest);
     }
 
-    @GetMapping("/balanceEnquiry")
+    @GetMapping("balanceEnquiry")
     public BankResponse balanceEnquiry(@RequestBody EnquiryRequest request){
         return userService.balanceEnquiry(request);
     }
@@ -36,6 +37,13 @@ public class UserController {
     @PostMapping("credit")
     public BankResponse creditAccount(@RequestBody CreditRequest request){
         return userService.creditAccount(request);
+
     }
+
+    @PostMapping("debit")
+    public BankResponse debitAccount(@RequestBody DebitRequest request){
+        return userService.debitAccount(request);
+    }
+
 
 }
